@@ -95,7 +95,7 @@ module.exports.studentHomePage = async (req,res) =>{
   module.exports.renderCourseRegisteration = async(req,res)=>{
     const {id} = req.params;
     const student = await Student.findById(id);
-    console.log(student);
+    //console.log(student);
     const availSubjects = await subjectSchema.find({aprog:student.aprog,sp_code:student.sp_code});
     let availSubjectsCode = availSubjects.map(sub=>sub.sub_no);
     const subjects = await Subject.find({});
@@ -132,7 +132,7 @@ module.exports.studentHomePage = async (req,res) =>{
   }
     await student.save();
     //await Student.findByIdAndUpdate(id,{$push: {"currentSub": {subject}}})
-    console.log(student.currentSubjects);
+   // console.log(student.currentSubjects);
     res.redirect(`/student/courseRegisteration/${id}`);
 
   }

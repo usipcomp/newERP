@@ -119,7 +119,7 @@
 
 
         <label for="branch">Specialization(Discipline)</label>
-        <select id="inputState" name="student[branch]" class="form-control">
+        <select id="inputState" name="student[sp_code]" class="form-control">
           <option selected>Choose...</option>
           <%for(let specialization of specializations){%>
           <option value="<%=specialization.sp_code%>" name="student[sp_code]"><%=specialization.sp_name%></option>
