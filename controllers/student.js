@@ -61,9 +61,9 @@ module.exports.submitLoginForm = async (req,res) =>{
 module.exports.studentHomePage = async (req,res) =>{
     const {id} = req.params;
     const student = await Student.findById(id);
-    console.log(student);
+   // console.log(student);
     const specialization = await Specialization.findOne({sp_code:student.sp_code});
-    console.log(specialization);
+   // console.log(specialization);
     res.render('student/studentHome',{student,specialization});
      
   }
@@ -84,12 +84,18 @@ module.exports.studentHomePage = async (req,res) =>{
 
   module.exports.submitEditForm = async (req,res) =>{
     const { id } = req.params;
-    // console.log(req.body);
-     const student = await Student.findByIdAndUpdate(id, { ...req.body.student });
-     await student.save();
-   
-     res.redirect(`/student/home/${id}`);
-     
+    const student = await Student.findById(id);
+    if(student.password==(req.body.student.password)){
+
+      const studentNew = await Student.findByIdAndUpdate(id, { ...req.body.student });
+      await studentNew.save();
+      req.flash('success','Information Updated Successfully !')
+      res.redirect(`/student/home/${id}`);
+    }
+    else{
+      req.flash('error','Invalid Password !');
+      res.redirect(`/student/edit/${id}`);
+    }
   }
 
   module.exports.renderCourseRegisteration = async(req,res)=>{

@@ -11,6 +11,8 @@
   <title>Course Registration</title>
 </head>
 <body>
+  <%- include('./partials/flash')%>
+  <%- include('./partials/navbar')%>
 
     <div>
         <nav class="navbar navbar-expand-lg bg-light">
@@ -100,7 +102,7 @@
                   <td><%=subject.sub_code%></td>
                   <td><%=availSubjects[i].sub_credit%></td>
                   <td ><form action="/student/courseRegister/<%=student._id%>/<%=subject._id%>" method="post">
-                    <button class="btn btn-success
+                    <button class="btn btn-primary
           
                     " type="submit" <%if(student.currentSubjects.includes(subject._id)){%>disabled<%}%>>Select</button>
                     <button class="btn btn-warning
@@ -133,7 +135,7 @@
                 <td>FEC7</td>
                 <td>2</td>
                 <td ><form action="/" method="post">
-                  <button class="btn btn-success" type="submit">Select</button>
+                  <button class="btn btn-primary" type="submit">Select</button>
                   <button class="btn btn-warning" type="submit">Drop</button>
                 </form></td>
               </tr>
