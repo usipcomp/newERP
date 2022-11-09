@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== "production") {
   const mongoose = require("mongoose");
   const { auth } = require("./middleware/auth");
   const studentRoutes = require('./routes/student');
+  const adminRoutes = require('./routes/admin');
   //const teacherRoutes = require('./routes/teacher');
   //const adminRoutes = require('./routes/admin');
   //const Teacher = require("./models/teacher");
@@ -103,8 +104,11 @@ if (process.env.NODE_ENV !== "production") {
   
   app.use('/student', studentRoutes);
   // app.use('/spots', teacherRoutes);
-  // app.use('/admin', adminRoutes);
+  app.use('/admin', adminRoutes);
   
+
+
+
   app.get('/branchSeed',async(req,res)=>{
     await branchSeed();
     res.send("BRANCH SEEDING COMPLETED");
