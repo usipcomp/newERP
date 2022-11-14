@@ -41,6 +41,8 @@ const subject1Schema = new Schema({
    },
    assessment_plan:{
     type:"String"
-   }
+   },
 })
+
+
 module.exports = mongoose.model('subjectSchema',subject1Schema);

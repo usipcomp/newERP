@@ -3,8 +3,10 @@ const Specialization = require('../models/specialization');
 const academic_programme = require('../models/academic_programme');
 const subjectSchema = require('../models/subjectScheme');
 const Subject = require('../models/subject');
+const StundentState = require('../models/studentState');
 
 const jwt = require('jsonwebtoken');
+const studentState = require('../models/studentState');
 
 module.exports.renderRegister = async (req,res) =>{
     const specializations = await Specialization.find({});
@@ -17,6 +19,8 @@ module.exports.submitRegister = async (req,res) =>{
   console.log(req.body);
     const student = new Student(req.body.student);
     student.roll_no = req.body.student.roll_no.toLowerCase();
+    const studentState=new studentState({roll_no:student.roll_no,stu_id:student,stu_id,currentSem:1});
+    await studentState.save();
     await student.save();
       const id = student._id;
       const token = jwt.sign(
@@ -60,11 +64,12 @@ module.exports.submitLoginForm = async (req,res) =>{
 
 module.exports.studentHomePage = async (req,res) =>{
     const {id} = req.params;
-    const student = await Student.findById(id);
+    const student = await Student.findById(id).populate('currentSubjects');
    // console.log(student);
     const specialization = await Specialization.findOne({sp_code:student.sp_code});
    // console.log(specialization);
-    res.render('student/studentHome',{student,specialization});
+    const currentSubjects=student.currentSubjects;
+    res.render('student/studentHome',{student,specialization,currentSubjects});
      
   }
 
