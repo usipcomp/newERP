@@ -3,10 +3,12 @@ const Specialization = require('../models/specialization');
 const academic_programme = require('../models/academic_programme');
 const subjectSchema = require('../models/subjectScheme');
 const Subject = require('../models/subject');
-const StundentState = require('../models/studentState');
+const StudentState = require('../models/studentState');
 
 const jwt = require('jsonwebtoken');
 const studentState = require('../models/studentState');
+//const subjectScheme = require('../models/subjectScheme');
+//const studentState = require('../models/studentState');
 
 module.exports.renderRegister = async (req,res) =>{
     const specializations = await Specialization.find({});
@@ -19,7 +21,7 @@ module.exports.submitRegister = async (req,res) =>{
   console.log(req.body);
     const student = new Student(req.body.student);
     student.roll_no = req.body.student.roll_no.toLowerCase();
-    const studentState=new studentState({roll_no:student.roll_no,stu_id:student,stu_id,currentSem:1});
+    const studentState=new StudentState({roll_no:student.roll_no,stu_id:student.stu_id,currentSem:1,securedCredits:0,currentCredits:0});
     await studentState.save();
     await student.save();
       const id = student._id;
@@ -106,7 +108,9 @@ module.exports.studentHomePage = async (req,res) =>{
   module.exports.renderCourseRegisteration = async(req,res)=>{
     const {id} = req.params;
     const student = await Student.findById(id);
-    //console.log(student);
+    const studentState = await StudentState.findOne({stu_id:student.stu_id});
+    //console.log(studentState);
+    //console.log(student);/
     const availSubjects = await subjectSchema.find({aprog:student.aprog,sp_code:student.sp_code});
     let availSubjectsCode = availSubjects.map(sub=>sub.sub_no);
     const subjects = await Subject.find({});
@@ -114,7 +118,7 @@ module.exports.studentHomePage = async (req,res) =>{
     let finalSubjects = await Subject.find({subject_id:{$in:availSubjectsCode}});
     //console.log(availSubjects);
 
-    res.render('student/courseRegisteration',{student,finalSubjects,availSubjects});
+    res.render('student/courseRegisteration',{student,finalSubjects,availSubjects,studentState});
 
   }
 
@@ -132,15 +136,25 @@ module.exports.studentHomePage = async (req,res) =>{
    // console.log(cid);
     const student = await Student.findById(id);
     const subject =await  Subject.findById(cid);
-    //console.log(subject);
+    const subSchema = await subjectSchema.findOne({codesub:subject.subject_id});
+    //console.log(subSchema);
+    const studentState = await StudentState.findOne({stu_id:student.stu_id});
+  
     if(student.currentSubjects.includes(cid))
     {
     student.currentSubjects.pull(subject);
+    studentState.currentSubjects.pull(subject);
+    studentState.currentCredits=studentState.currentCredits-subSchema.sub_credit;
   }
   else{
     student.currentSubjects.push(subject);
+    studentState.currentSubjects.push(subject);
+    studentState.currentCredits=studentState.currentCredits+subSchema.sub_credit;
+
 
   }
+  console.log(studentState);
+    await studentState.save();
     await student.save();
     //await Student.findByIdAndUpdate(id,{$push: {"currentSub": {subject}}})
    // console.log(student.currentSubjects);
