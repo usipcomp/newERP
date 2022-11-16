@@ -83,7 +83,7 @@
     </div>
 
     <br>
-    <%=student.currentSubjects.includes("6354c1e715ce0f5695d1412d")%>
+
     <div>
         <h3>Core Subjects</h3>
         <table class="table">
@@ -120,46 +120,43 @@
 
 
     <div>
-        <h3>Foundation Electives</h3>
-        <table class="table">
-            <thead>
+      <h3>Electives</h3>
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Subject Name</th>
+              <th scope="col">Subject Code</th>
+              <th scope="col">Credits</th>
+              <th scope="col">Slot</th>
+
+              <th scope="col">Select/Drop</th>
+
+              
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            
+             <%let j=0; for(let elective of finalElectives){%>
               <tr>
-                <th scope="col">Subject Name</th>
-                <th scope="col">Subject Code</th>
-                <th scope="col">Credits</th>
-                <th scope="col">Selected</th>
-              </tr>
-            </thead>
-            <tbody class="table-group-divider"></tbody>
-              <tr>
-                <td>Sports</td>
-                <td>FEC7</td>
-                <td>2</td>
-                <td ><form action="/" method="post">
-                  <button class="btn btn-primary" type="submit">Select</button>
-                  <button class="btn btn-warning" type="submit">Drop</button>
+                <td><%=elective.sub_name%></td>
+                <td><%=elective.sub_code%></td>
+                <td><%=availElectives[j].sub_credit%></td>
+                <td><%=availElectives[j].slot%></td>
+
+                <td ><form action="/student/courseRegister/<%=student._id%>/<%=elective._id%>" method="post">
+                  <button class="btn btn-primary
+        
+                  " type="submit" <%if(student.currentSubjects.includes(elective._id)){%>disabled<%}%>>Select</button>
+                  <button class="btn btn-warning
+                  " type="submit" <%if(!student.currentSubjects.includes(elective._id)){%>disabled<%}%>>Drop</button>
                 </form></td>
-              </tr>
-              <tr>
-                <td>Professional Ethics and Human Values</td>
-                <td>FEC27</td>
-                <td>2</td>
-                <td ><form action="/" method="post">
-                  <button class="btn btn-success" type="submit">Select</button>
-                  <button class="btn btn-warning" type="submit">Drop</button>
-                </form></td>
-              </tr>
-              <tr>
-                <td>Spoken Skills</td>
-                <td>FEC18</td>
-                <td>2</td>
-                <td ><form action="/" method="post">
-                  <button class="btn btn-success" type="submit">Select</button>
-                  <button class="btn btn-warning" type="submit">Drop</button>
-                </form></td>
-              </tr>
-            </tbody>
-          </table>
+                </tr>
+      
+      <%j++;}%>
+
+          </tbody>
+        </table>
+      <br><br>
     </div>
 
 

@@ -111,14 +111,20 @@ module.exports.studentHomePage = async (req,res) =>{
     const studentState = await StudentState.findOne({stu_id:student.stu_id});
     //console.log(studentState);
     //console.log(student);/
-    const availSubjects = await subjectSchema.find({aprog:student.aprog,sp_code:student.sp_code});
-    let availSubjectsCode = availSubjects.map(sub=>sub.sub_no);
-    const subjects = await Subject.find({});
+    const availSubjects = await subjectSchema.find({aprog:student.aprog,sp_code:student.sp_code,course_type:"compulsory"});
+    let availSubjectsCode = availSubjects.map(sub=>sub.sub_id);
+    //const subjects = await Subject.find({});
     //console.log(availSubjectsCode);
-    let finalSubjects = await Subject.find({subject_id:{$in:availSubjectsCode}});
+    let finalSubjects = await Subject.find({sub_id:{$in:availSubjectsCode}});
     //console.log(availSubjects);
 
-    res.render('student/courseRegisteration',{student,finalSubjects,availSubjects,studentState});
+    const availElectives = await subjectSchema.find({aprog:student.aprog,sp_code:student.sp_code,course_type:"elective"});
+    let availElectivesCode = availElectives.map(sub=>sub.sub_id);
+    let finalElectives = await Subject.find({sub_id:{$in:availElectivesCode}});
+
+
+
+    res.render('student/courseRegisteration',{student,finalSubjects,availSubjects,studentState,availElectives,finalElectives});
 
   }
 

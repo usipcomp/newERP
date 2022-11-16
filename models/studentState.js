@@ -26,7 +26,7 @@ const studentStateSchema = new Schema({
             ref:'Subject'
         }
     ],
-    passedSubjects:[passedSubjectsSchema],
+    passedSubjects:[passedSubjectsSchema], 
     backSubjects:[
             {
                 type:Schema.Types.ObjectId,

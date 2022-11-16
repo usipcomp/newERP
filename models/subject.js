@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 
 const subjectSchema = new Schema({
-   subject_id:{
+   sub_id:{
     type:Number,
    },
    sub_code:{
