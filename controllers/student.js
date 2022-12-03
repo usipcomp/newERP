@@ -167,3 +167,6 @@ module.exports.studentHomePage = async (req,res) =>{
     res.redirect(`/student/courseRegisteration/${id}`);
 
   }
+
+
+  

@@ -12,5 +12,26 @@ router
   .post(catchAsync(admins.submitLoginForm));
 
 
+router
+  .route("/home/:id")
+  .get(catchAsync(admins.renderHomePage))
+
+router
+  .route("/students")
+  .get(catchAsync(admins.students))
+  .post(catchAsync(admins.searchStudent))
+
+router
+  .route("/students/:id")
+  .get(catchAsync(admins.showStudent))
+
+router
+  .route("/courseRegisteration")
+  .get(catchAsync(admins.courseRegisteration));
+
+  router
+  .route("/createCR")
+  .get(catchAsync(admins.createCR))
+  .post(catchAsync(admins.postCR));
 
 module.exports = router;

@@ -66,20 +66,23 @@
 
 
 <body>
+  <%- include('./partials/flash')%>
+
     <div class="img-dtu">
         <img src="/dtubg.jpeg" alt="">
     </div>
 
 
     <div class="container">
+
         <h1>
            Admin Portal
         </h1>
 
         <form action="/admin/login" method="post">
             <div class="mb-3">
-                <label for="roll_no" class="form-label">Employee ID</label>
-                <input type="text" name="roll_no" class="form-control">
+                <label for="empID" class="form-label">Employee ID</label>
+                <input type="text" name="empID" class="form-control">
             </div>
 
 
