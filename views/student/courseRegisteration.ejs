@@ -52,6 +52,8 @@
                 <th scope="col">Semester</th>
                 <th scope="col">Academic Year</th>
                 <th scope="col">Current Credits</th>
+                <th scope="col">Max Credits</th>
+                <th scope="col">Max Electives</th>
               </tr>
             </thead>
             <tbody>
@@ -61,6 +63,8 @@
                 <td><%=studentState.currentSem%></td>
                 <td>2022-23</td>
                 <td><%=studentState.currentCredits%></td>
+                <td><%=rules.maxCredits%></td>
+                <td><%=rules.maxElectives%></td>
               </tr>
             </tbody>
           </table>
@@ -105,7 +109,7 @@
                   <td ><form action="/student/courseRegister/<%=student._id%>/<%=subject._id%>" method="post">
                     <button class="btn btn-primary
           
-                    " type="submit" <%if(student.currentSubjects.includes(subject._id)){%>disabled<%}%>>Select</button>
+                    " type="submit" <%if(student.currentSubjects.includes(subject._id) || studentState.currentCredits>=rules.maxCredits ){%>disabled<%}%>>Select</button>
                     <button class="btn btn-warning
                     " type="submit" <%if(!student.currentSubjects.includes(subject._id)){%>disabled<%}%>>Drop</button>
                   </form></td>
@@ -138,7 +142,7 @@
             
              <%let j=0; for(let elective of finalElectives){%>
               <tr>
-                <td><%=elective.sub_name%></td>
+                <td><%=elective.sub_name%> <br></td>
                 <td><%=elective.sub_code%></td>
                 <td><%=availElectives[j].sub_credit%></td>
                 <td><%=availElectives[j].slot%></td>
@@ -146,7 +150,7 @@
                 <td ><form action="/student/courseRegister/<%=student._id%>/<%=elective._id%>" method="post">
                   <button class="btn btn-primary
         
-                  " type="submit" <%if(student.currentSubjects.includes(elective._id)){%>disabled<%}%>>Select</button>
+                  " type="submit" <%if(student.currentSubjects.includes(elective._id) || studentState.currentCredits>=rules.maxCredits || studentState.currentElectives>=rules.maxElectives  ){%>disabled<%}%>>Select</button>
                   <button class="btn btn-warning
                   " type="submit" <%if(!student.currentSubjects.includes(elective._id)){%>disabled<%}%>>Drop</button>
                 </form></td>

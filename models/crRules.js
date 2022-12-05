@@ -11,7 +11,7 @@ const crRules = new Schema({
         type:Number,
     },
     open:{
-        type:String,
+        type:Boolean,
     },
     maxCredits:{
         type:Number,

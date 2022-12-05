@@ -29,9 +29,19 @@ router
   .route("/courseRegisteration")
   .get(catchAsync(admins.courseRegisteration));
 
-  router
+router
   .route("/createCR")
   .get(catchAsync(admins.createCR))
   .post(catchAsync(admins.postCR));
 
+
+router
+  .route('/cr/delete/:id')
+  .post(catchAsync(admins.deleteCR)) 
+
+
+router
+  .route('/cr/:id')
+  .get(catchAsync(admins.updateCR))
+  .post(catchAsync(admins.updatingCR))
 module.exports = router;

@@ -42,7 +42,9 @@ const studentStateSchema = new Schema({
     currentCredits:{
         type:Number,
     },  
-    
+    currentElectives:{
+        type:Number,
+    }
 
 
 

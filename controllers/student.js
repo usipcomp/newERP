@@ -4,7 +4,7 @@ const academic_programme = require('../models/academic_programme');
 const subjectSchema = require('../models/subjectScheme');
 const Subject = require('../models/subject');
 const StudentState = require('../models/studentState');
-
+const crRules = require('../models/crRules');
 const jwt = require('jsonwebtoken');
 const studentState = require('../models/studentState');
 //const subjectScheme = require('../models/subjectScheme');
@@ -21,7 +21,7 @@ module.exports.submitRegister = async (req,res) =>{
   console.log(req.body);
     const student = new Student(req.body.student);
     student.roll_no = req.body.student.roll_no.toLowerCase();
-    const studentState=new StudentState({roll_no:student.roll_no,stu_id:student.stu_id,currentSem:1,securedCredits:0,currentCredits:0});
+    const studentState=new StudentState({roll_no:student.roll_no,stu_id:student.stu_id,currentSem:1,securedCredits:0,currentCredits:0,currentElectives:0});
     await studentState.save();
     await student.save();
       const id = student._id;
@@ -121,11 +121,18 @@ module.exports.studentHomePage = async (req,res) =>{
     const availElectives = await subjectSchema.find({aprog:student.aprog,sp_code:student.sp_code,course_type:"elective"});
     let availElectivesCode = availElectives.map(sub=>sub.sub_id);
     let finalElectives = await Subject.find({sub_id:{$in:availElectivesCode}});
+    const rules = await crRules.findOne({aprog:student.aprog,sem:studentState.currentSem});
+    //console.log(finalElectives);
+    //console.log(availElectives);
 
-
-
-    res.render('student/courseRegisteration',{student,finalSubjects,availSubjects,studentState,availElectives,finalElectives});
-
+    //console.log(rules);
+    if(!rules.open){
+      req.flash('error',"Courser Registeration Not Open");
+      res.redirect(`/student/home/${id}`)
+    }
+    else{
+    res.render('student/courseRegisteration',{student,finalSubjects,availSubjects,studentState,availElectives,finalElectives,rules});
+    }
   }
 
   module.exports.mkbhd = async (req,res) =>{
@@ -142,26 +149,35 @@ module.exports.studentHomePage = async (req,res) =>{
    // console.log(cid);
     const student = await Student.findById(id);
     const subject =await  Subject.findById(cid);
-    const subSchema = await subjectSchema.findOne({codesub:subject.subject_id});
+    const subSchema = await subjectSchema.findOne({sub_id:subject.sub_id});
     //console.log(subSchema);
     const studentState = await StudentState.findOne({stu_id:student.stu_id});
-  
+    //console.log(subSchema);
     if(student.currentSubjects.includes(cid))
     {
     student.currentSubjects.pull(subject);
     studentState.currentSubjects.pull(subject);
     studentState.currentCredits=studentState.currentCredits-subSchema.sub_credit;
+  
+    if(subSchema.course_type=='elective'){
+      const c = await StudentState.findByIdAndUpdate(studentState._id,{currentElectives:studentState.currentElectives-1});
+
+    }
   }
   else{
     student.currentSubjects.push(subject);
     studentState.currentSubjects.push(subject);
     studentState.currentCredits=studentState.currentCredits+subSchema.sub_credit;
 
-
+    if(subSchema.course_type=='elective'){
+      const c = await StudentState.findByIdAndUpdate(studentState._id,{currentElectives:studentState.currentElectives+1});
+    }
   }
-  console.log(studentState);
+
     await studentState.save();
     await student.save();
+
+
     //await Student.findByIdAndUpdate(id,{$push: {"currentSub": {subject}}})
    // console.log(student.currentSubjects);
     res.redirect(`/student/courseRegisteration/${id}`);

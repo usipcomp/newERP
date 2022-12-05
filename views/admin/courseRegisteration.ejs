@@ -75,7 +75,7 @@
     <br>
 
 <%for(let c of cr){%>
-    <%=cr%>
+    <a href='/admin/cr/<%=c._id%>''><%=c%></a> <form action="/admin/cr/delete/<%=c._id%>" method="post"> <button type="submit">DELETE</button></form>
     <br>
 <%}%>
 
