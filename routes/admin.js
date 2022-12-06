@@ -44,4 +44,10 @@ router
   .route('/cr/:id')
   .get(catchAsync(admins.updateCR))
   .post(catchAsync(admins.updatingCR))
+
+router
+  .route('/subjects')
+  .get(catchAsync(admins.showSubjects))
+  
+
 module.exports = router;

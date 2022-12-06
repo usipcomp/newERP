@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<style>
+    html{
+        overflow: scroll !important;
+    }
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        /* background-image: url(dtubg.jpeg);
+        background-repeat: no-repeat;
+        height: 100%;
+        width: 100%; */
+        /* background-color: aliceblue; */
+        background-color: aliceblue;
+
+    }
+
+    .img-dtu img {
+        top: 53px;
+        position: absolute;
+        scale: 1;
+    }
+
+    @media (min-width: 950px) {
+        .img-dtu img {
+            /* top: 220px;
+            position: absolute;
+            scale: 3.3  !important; */
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+
+    .container {
+        opacity: 0.9;
+        position: relative;
+        z-index: 8;
+        margin: auto;
+        width: 370px;
+        padding: 30px;
+        margin-top: 100px !important;
+        background-color: antiquewhite !important;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    }
+
+    .container h1 {
+        text-align: center;
+        margin-bottom: 25px !important;
+
+    }
+
+    .container input {
+        border-radius: 4px;
+
+    }
+</style>
+
+
+
+<body>
+  <%- include('./partials/flash')%>
+  <%- include('./partials/navbar')%>
+
+
+
+    <table style="width: 150%;" class="table">
+        <tr>
+          <th>Subject ID</th>
+          <th>Subject Code</th>
+          <th>Subject Name</th>
+          <th>Minor</th>
+          <th>Subject_imax_m</th>
+          <th>Subject_emax_m</th>
+          <th>subject_credit/th>
+          <th>TH/PR</th>
+          <th>Semester</th>
+          <th>SP_Code</th>
+          <th>APROG</th>
+          <th>Scheme Year</th>
+          <th>Subject Number</th>
+          <th>Assessment Plan</th>
+          <th>Course type</th>
+          <th>tutorials</th>  
+          <th>lectures</th>
+          <th>practicals</th>
+          <th>course coordinator</th>
+
+        </tr>
+       
+        <%for(let scheme of subjectSchemas){%>
+            <tr>
+                <td><%=scheme.sub_id%></td>
+                <td><%=scheme.sub_code%></td>
+                <td><%=scheme.sub_name%></td>
+                <td><%=scheme.minor%></td>
+                <td><%=scheme.sub_imax_m%></td>
+                <td><%=scheme.sub_emax_m%></td>
+                <td><%=scheme.sub_credit%></td>
+                <td><%=scheme.th_pr%></td>
+                <td><%=scheme.num%></td>
+                <td><%=scheme.sp_code%></td>
+                <td><%=scheme.aprog%></td>
+                <td><%=scheme.scheme_year%></td>
+                <td><%=scheme.sub_no%></td>
+                <td><%=scheme.asses_plan%></td>
+                <td><%=scheme.course_type%></td>
+                <td><%=scheme.tutorials%></td>  
+                <td><%=scheme.lectures%></td>
+                <td><%=scheme.practicals%></td>
+                <td><%=scheme.course_coordinator_name%></td>
+      
+              </tr>
+              <%}%>
+
+      </table>
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

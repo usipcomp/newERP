@@ -187,3 +187,23 @@ const c = await crRules.findByIdAndUpdate(id,cr);
 res.redirect(`/admin/cr/${c._id}`)
 
 }
+
+
+module.exports.showSubjects = async(req,res) =>{
+
+  const cookies = await req.cookies;
+  if(!cookies.token){
+    return res.redirect('/login/admin');
+}
+const response = await jwt.verify(cookies.token,"thisisasecretkeyhelloonetwothreefour");
+const admin = await Admin.findOne({id:response.id});
+
+const subjects = await Subject.find({});
+const subjectSchemas = await subjectSchema.find({});
+
+res.render('admin/showSubjects',{admin,subjects,subjectSchemas});
+
+
+
+
+}
