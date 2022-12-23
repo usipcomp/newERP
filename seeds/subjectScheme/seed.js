@@ -25,7 +25,23 @@ const dbUrl = "mongodb+srv://usipcompcentre2022august:usip123p1@cluster0.a82quus
     }
 
   }
-  seed().then(()=>{
+  const edit = async()=>{
+    const subjects = await Subject.find({});
+    for(let subject of subjects){
+      await Subject.findByIdAndUpdate(subject._id,{seats:70});        
+    }
+
+  }
+
+
+
+
+  // seed().then(()=>{
+  //   mongoose.connection.close();
+  // })
+  
+
+  edit().then(()=>{
     mongoose.connection.close();
   })
   

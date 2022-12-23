@@ -132,7 +132,8 @@
               <th scope="col">Subject Code</th>
               <th scope="col">Credits</th>
               <th scope="col">Slot</th>
-
+              
+              <th scope="col">Seats</th>
               <th scope="col">Select/Drop</th>
 
               
@@ -146,7 +147,7 @@
                 <td><%=elective.sub_code%></td>
                 <td><%=availElectives[j].sub_credit%></td>
                 <td><%=availElectives[j].slot%></td>
-
+                <td><%=availElectives[j].seats%></td>
                 <td ><form action="/student/courseRegister/<%=student._id%>/<%=elective._id%>" method="post">
                   <button class="btn btn-primary
         

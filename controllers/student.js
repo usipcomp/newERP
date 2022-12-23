@@ -171,7 +171,7 @@ module.exports.studentHomePage = async (req,res) =>{
     student.currentSubjects.pull(subject);
     studentState.currentSubjects.pull(subject);
     studentState.currentCredits=studentState.currentCredits-subSchema.sub_credit;
-  
+    subSchema.seats = subSchema.seats+1;
     if(subSchema.course_type=='elective'){
       const c = await StudentState.findByIdAndUpdate(studentState._id,{currentElectives:studentState.currentElectives-1});
 
@@ -181,12 +181,13 @@ module.exports.studentHomePage = async (req,res) =>{
     student.currentSubjects.push(subject);
     studentState.currentSubjects.push(subject);
     studentState.currentCredits=studentState.currentCredits+subSchema.sub_credit;
+    subSchema.seats = subSchema.seats-1;
 
     if(subSchema.course_type=='elective'){
       const c = await StudentState.findByIdAndUpdate(studentState._id,{currentElectives:studentState.currentElectives+1});
     }
   }
-
+  await subSchema.save();
     await studentState.save();
     await student.save();
 

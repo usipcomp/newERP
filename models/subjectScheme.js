@@ -77,6 +77,9 @@ const subject1Schema = new Schema({
      },
      course_coordinator_name:{
       type:String,
+     },seats:
+     {
+      type:Number,
      }
   
 })
