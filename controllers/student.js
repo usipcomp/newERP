@@ -131,7 +131,20 @@ module.exports.studentHomePage = async (req,res) =>{
       res.redirect(`/student/home/${id}`)
     }
     else{
-    res.render('student/courseRegisteration',{student,finalSubjects,availSubjects,studentState,availElectives,finalElectives,rules});
+      let blockedElectives =[];
+    for(let sub of student.currentSubjects){
+      //console.log(sub);
+      let s = await Subject.findById(sub);
+      let ss = await subjectSchema.findOne({sub_id:s.sub_id});
+      //console.log(ss);
+      if(ss.course_type=='elective'){
+        console.log(ss);
+        blockedElectives.push(ss.slot);
+
+      }
+    }  
+    console.log(blockedElectives);
+    res.render('student/courseRegisteration',{student,finalSubjects,availSubjects,studentState,availElectives,finalElectives,rules,blockedElectives});
     }
   }
 

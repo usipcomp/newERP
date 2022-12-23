@@ -83,3 +83,4 @@ const subject1Schema = new Schema({
 
 
 module.exports = mongoose.model('subjectSchema',subject1Schema);
+
