@@ -155,6 +155,17 @@ module.exports.studentHomePage = async (req,res) =>{
   }
 
 
+  module.exports.acknowledgementSlip = async (req,res) =>{
+    const {id}=req.params;
+    const student = await Student.findById(id);
+    console.log(student);
+    const aprog =await academic_programme.findOne({aprog:student.aprog});
+    const sp = await Specialization.findOne({sp_code:student.sp_code});
+    console.log(sp);
+    res.render('student/layout',{student,aprog,sp});
+     
+  }
+
   module.exports.courseRegister = async(req,res) =>{
     
     const {id,cid}=req.params;
@@ -199,4 +210,4 @@ module.exports.studentHomePage = async (req,res) =>{
   }
 
 
-  
+ 

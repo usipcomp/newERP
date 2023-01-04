@@ -29,5 +29,9 @@ router
   .post(auth ,catchAsync(students.submitEditForm));
 
 
+router
+  .route('/acknowledgement/:id')
+  .get(auth,catchAsync(students.acknowledgementSlip));
+
   
 module.exports = router;

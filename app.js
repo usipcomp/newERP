@@ -9,6 +9,8 @@ if (process.env.NODE_ENV !== "production") {
   //const teacherRoutes = require('./routes/teacher');
   //const adminRoutes = require('./routes/admin');
   //const Teacher = require("./models/teacher");
+  const expressLayouts = require('express-ejs-layouts');
+
   const path = require("path");
   const jwt = require("jsonwebtoken");
   const cookieParser = require("cookie-parser");
@@ -24,6 +26,8 @@ if (process.env.NODE_ENV !== "production") {
   const { type } = require("os");
   
   const app = express();
+  //app.use(expressLayouts);
+
   app.use(cookieParser());
   app.engine("ejs", ejsMate);
   app.set("view engine", "ejs");
