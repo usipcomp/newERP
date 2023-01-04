@@ -7,31 +7,45 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <style>
 
+.title-block{
+    max-width: 100%;
+    margin: auto;
+    border-radius: 5px;
+}
+
+.sem-info{
+  max-width: 1000px;
+  margin: auto;
+  padding-top: 30px;
+  border-radius: 30%;
+}
+
+.core-subjects{
+  max-width: 800px;
+  margin: auto;
+}
+
+.elective-subjects{
+  max-width: 1100px;
+  margin: auto;
+}
+
   </style>
   <title>Course Registration</title>
 </head>
 <body>
   <%- include('./partials/flash')%>
   <%- include('./partials/navbar')%>
-    <div>
+  
+    <div class="title-block">
         <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                      <li class="nav-item dropdown">
-                      
-                      </li>
-                    </ul>
-                  </div>
-                <a class="navbar-brand" href="#">Course Registration</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
+            <div class="container-fluid d-flex justify-content-center">
+                <a class="navbar-brand " href="#">Course Registration</a>
             </div>
           </nav>
     </div>
 
-    <div>
+    <div class="sem-info">
         <table class="table table-hover table-borderless">
             <thead>
               <tr>
@@ -59,27 +73,10 @@
     </div>
 
     <br><br>
-
-    <div>
-
-        <!-- <h1>Course Requirements</h1> -->
-        <br>
-        <div class="navbar">
-            <form class="container-fluid justify-content-start">
-              <button class="btn btn-outline-success me-2" type="button">All Courses</button>
-              <button class="btn btn-outline-success me-2" type="button">Core Subjects</button>
-              <button class="btn btn-outline-success me-2" type="button">FECs</button>
-              <button class="btn btn-outline-success me-2" type="button">Electives</button>
-              <a href="/student/acknowledgement/<%=student._id%>""><button class="btn btn-outline-success me-2" type="button">acknowledgement Slip</button></a>
-            </form>
-        </div>
-    </div>
-
-    <br>
-
-    <div>
-        <h3>Core Subjects</h3>
-        <table class="table">
+    
+    <div class="core-subjects">
+        <h4 class="d-flex justify-content-center">Core Subjects</h4>
+        <table class="table table-hover table-bordered">
             <thead>
               <tr>
                 <th scope="col">Subject Name</th>
@@ -96,9 +93,10 @@
                   <td><%=subject.sub_code%></td>
                   <td><%=availSubjects[i].sub_credit%></td>
                   <td ><form action="/student/courseRegister/<%=student._id%>/<%=subject._id%>" method="post">
-                    <button class="btn btn-primary
-          
-                    " type="submit" <%if(student.currentSubjects.includes(subject._id) || studentState.currentCredits>=rules.maxCredits  ){%>disabled<%}%>>Select</button>
+                    <button class="btn btn-primary" type="submit" <%if(student.currentSubjects.includes(subject._id) || 
+                    studentState.currentCredits>=rules.maxCredits  ){%>disabled<%}%>>
+                    Select
+                    </button>
                     <button class="btn btn-warning
                     " type="submit" <%if(!student.currentSubjects.includes(subject._id)){%>disabled<%}%>>Drop</button>
                   </form></td>
@@ -112,24 +110,20 @@
     </div>
 
 
-    <div>
-      <h3>Electives</h3>
-      <table class="table">
+    <div class="elective-subjects">
+      <h4 class="d-flex justify-content-center">Electives</h4>
+      <table class="table table-hover table-bordered">
           <thead>
             <tr>
               <th scope="col">Subject Name</th>
               <th scope="col">Subject Code</th>
               <th scope="col">Credits</th>
               <th scope="col">Slot</th>
-              
               <th scope="col">Seats</th>
               <th scope="col">Select/Drop</th>
-
-              
             </tr>
           </thead>
           <tbody class="table-group-divider">
-            
              <%let j=0; for(let elective of finalElectives){%>
               <tr>
                 <td><%=elective.sub_name%> <br></td>
@@ -140,24 +134,22 @@
                 <td ><form action="/student/courseRegister/<%=student._id%>/<%=elective._id%>" method="post">
                   <button class="btn btn-primary
         
-                  " type="submit" <%if(student.currentSubjects.includes(elective._id) || studentState.currentCredits>=rules.maxCredits || studentState.currentElectives>=rules.maxElectives || blockedElectives.includes(availElectives[j].slot)  ){%>disabled<%}%>>Select</button>
+                  " type="submit" <%if(student.currentSubjects.includes(elective._id) || 
+                  studentState.currentCredits>=rules.maxCredits || 
+                  studentState.currentElectives>=rules.maxElectives || 
+                  blockedElectives.includes(availElectives[j].slot)  ){%>disabled<%}%>>
+                  Select
+                  </button>
                   <button class="btn btn-warning
                   " type="submit" <%if(!student.currentSubjects.includes(elective._id)){%>disabled<%}%>>Drop</button>
                 </form></td>
                 </tr>
-      
       <%j++;}%>
-
           </tbody>
         </table>
       <br><br>
     </div>
-
-
-
-
     <%=blockedElectives.includes('E1')%>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
 </html>
